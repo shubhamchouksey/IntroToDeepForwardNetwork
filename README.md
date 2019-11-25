@@ -12,7 +12,7 @@
 In words, the (x1-x2) function is 0 if both inputs are the same, or +ve if x1>x2(+1) or -ve if x1<x2(-1). 
 
 ****************************
-**Exercise 2:** In the python file SimpleDeepForwardNetwork.py, you will create code for a neural network which performs the (x1-x2) operation. The following elements are required:
+**Exercise: ** In the python file SimpleDeepForwardNetwork.py, you will create code for a neural network which performs the (x1-x2) operation. The following elements are required:
 
 1. An input weight tensor
 2. A hidden layer with 10 units using sigmoid activation
