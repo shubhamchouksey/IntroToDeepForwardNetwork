@@ -9,10 +9,10 @@ Created on Tue Nov 26 01:05:31 2019
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Neural Network for solving XOR Problem
+# Neural Network for solving x1-x2 Problem
 # 1 1 --> 0
 # 1 0 --> 1
-# 0 1 --> 1
+# 0 1 --> -1
 # 0 0 --> 0
 
 # Activation function: sigmoid
@@ -36,8 +36,6 @@ def forward(x,w1,w2,predict=False):
     z1 = np.concatenate((bias,z1),axis = 1)
     a2 = np.matmul(z1,w2)
     z2 = sigmoid(a2)
-    #print(a1,z1)
-    #print(z2)
     if(predict):
         return z2
     return a1,z1,a2,z2
@@ -45,22 +43,10 @@ def forward(x,w1,w2,predict=False):
 # Backprop fuction
 def backprop(a2,z0,z1,z2,y):
     a1, z1, a2, z2 = forward(x,w1,w2)
-    #print(a1)
-    #print(z2)
-    #print(z1)
     delta2 = (z2-y)
-    #print(z1.T)
     Delta2 = np.matmul(z1.T,delta2)
-    #print(delta2)
-    #print(Delta2)
-    #print(w2.T)
     delta1 = (delta2.dot(w2[1:,:].T))*sigmoid_deriv(a1)
-    #print(delta1)
-    #delta11  = delta1
-    #print(delta11)
-    #print(x.T)
     Delta1 = np.matmul(z0.T,delta1)
-    #print(Delta1)
     return delta2, Delta1, Delta2
 
 # First column is the bias
@@ -68,15 +54,10 @@ x = np.array([[1,1,1],[1,2,1],[1,3,1],[1,4,1],[1,1,2],[1,2,2],[1,3,2],[1,4,2],[1
 y = np.array([[0],[1],[1],[1],[-1],[0],[1],[1],[-1],[-1],[0],[1],[-1],[-1],[-1],[0]])
 
 
-
-
 # init weights 
 np.random.seed(1231)
 w1 = np.random.randn(3,10)
 w2 = np.random.randn(11,1)
-
-# print(w1, w2)
-# print(w2[1:,:])
 
 # init learning rate
 lr = 0.001
@@ -88,12 +69,10 @@ m = len(x)
 
 # Start training
 for i in range(epochs):
+    
     # Forward
     a1, z1, a2, z2 = forward(x, w1, w2)
-    #print(w1)
-    #print(w2)
-        
-    #print(a1, z1, a2, z2)
+    
     # Backprop
     delta2, Delta1, Delta2 = backprop(a2, x, z1, z2, y)
     #print(delta2,Delta1,Delta2)
@@ -110,8 +89,10 @@ for i in range(epochs):
         
 # Training complete
 print('Training completed.')
+plt.plot(costs)
+plt.show()
 
-# Make Predictions
+# Make Predictions for the training inputs
 z3 = forward(x,w1,w2,True)
 print('Percentages: ')
 print(z3)
@@ -122,12 +103,9 @@ k[(k > 1e-10) & (k < 1e-05)] = 0
 k[(k < 1) & (k>0)] = -1
 k
 print(k)
-   
-plt.plot(costs)
-plt.show()
 
-
-test = np.array([[1,6,6],[1,8,9],[1,100,9]])
+# Make Predictions for testing inputs
+test = np.array([[1,6,6],[1,8,9],[1,100,9],[1,-20,30]])
 z3 = forward(test,w1,w2,True)
 print('Percentages: ')
 print(z3)
