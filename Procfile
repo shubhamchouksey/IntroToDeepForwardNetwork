@@ -1,2 +1,2 @@
-worker: python SimpleDeepForwardNetwork.py
+web: python SimpleDeepForwardNetwork.py
 web: gunicorn app:app
