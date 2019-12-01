@@ -10,10 +10,11 @@ import numpy as np
 from flask import Flask, request, render_template
 import pickle
 import SimpleDeepForwardNetwork
-#from SimpleDeepForwardNetwork import SimpleForwardNetwork
+from SimpleDeepForwardNetwork import SimpleForwardNetwork
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl','rb'))
+with open('model.pkl', 'rb') as f:
+    model = pickle.load(f)
 #print(model)
 
 
@@ -23,7 +24,7 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    
+   
     int_feature = [int(x) for x in request.form.values()]
     final_features = np.array(int_feature)
     print(final_features)
@@ -39,7 +40,6 @@ def predict():
     return render_template('index.html', prediction_text = ' {}'.format(int(thresh.item())))
 
 if __name__ == "__main__":
-    SimpleDeepForwardNetwork.main()
     app.run(debug=True)
 
 
