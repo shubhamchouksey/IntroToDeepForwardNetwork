@@ -13,7 +13,7 @@ import SimpleDeepForwardNetwork
 #from SimpleDeepForwardNetwork import SimpleForwardNetwork
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl','rb'))
+
 #print(model)
 
 
@@ -40,6 +40,7 @@ def predict():
 
 if __name__ == "__main__":
     SimpleDeepForwardNetwork.main()
+    model = pickle.load(open('model.pkl','rb'))
     app.run(debug=True)
 
 
