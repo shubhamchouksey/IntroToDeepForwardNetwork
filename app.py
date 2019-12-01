@@ -7,10 +7,10 @@ Created on Fri Nov 29 13:32:27 2019
 """
 
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template
 import pickle
 import SimpleDeepForwardNetwork
-from SimpleDeepForwardNetwork import SimpleForwardNetwork
+#from SimpleDeepForwardNetwork import SimpleForwardNetwork
 
 app = Flask(__name__)
 model = pickle.load(open('model.pkl','rb'))
@@ -39,6 +39,9 @@ def predict():
     return render_template('index.html', prediction_text = ' {}'.format(int(thresh.item())))
 
 if __name__ == "__main__":
+    SimpleDeepForwardNetwork.main()
     app.run(debug=True)
+
+
     
     
