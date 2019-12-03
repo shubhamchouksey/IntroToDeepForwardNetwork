@@ -8,8 +8,7 @@ Created on Tue Nov 26 01:05:31 2019
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pickle
-from math import exp
+import config
 
 # Neural Network for solving x1-x2 Problem
 # 1 1 --> 0
@@ -17,12 +16,20 @@ from math import exp
 # 0 1 --> -1
 # 0 0 --> 0
 
+final_w1 = 0
+final_w2 = 0
 
+def ret_weight():
+    return final_w1, final_w2
 
 class SimpleForwardNetwork:
     
     w1=w2=0
     
+    def __init__(self,w1,w2):
+        self.w1 = w1
+        self.w2 = w2
+
     # Activation function: sigmoid
     def sigmoid(self,x): return np.exp(x)/(1 + np.exp(x))
     
@@ -32,6 +39,8 @@ class SimpleForwardNetwork:
 
     # Forward function
     def forward(self,x,predict=False):
+        #print(x)
+        #print(self.w1)
         a1 = np.matmul(x,self.w1)
         #print(a1)
         z1 = self.sigmoid(a1)
@@ -57,16 +66,13 @@ class SimpleForwardNetwork:
         return delta2, Delta1, Delta2
 
 
-
-
-
-
 # Make Predictions for the training inputs
 # z3 = model.forward(x,True)
 
 def main():
+    
     # creating an object for SimpleForwardNetwork class.
-    simplefnw = SimpleForwardNetwork()
+    simplefnw = SimpleForwardNetwork(0,0)
 
     # First column is the bias
     x = np.array([[1,1,1],[1,2,1],[1,3,1],[1,4,1],[1,1,2],[1,2,2],[1,3,2],[1,4,2],[1,1,3],[1,2,3],[1,3,3],[1,4,3],[1,1,4],[1,2,4],[1,3,4],[1,4,4]])
@@ -113,10 +119,15 @@ def main():
     print('Training completed.')
     plt.plot(costs)
     plt.show()
-        
+    
+    #print(simplefnw.w1)
+    config.w1 = simplefnw.w1
+    config.w2 = simplefnw.w2
+    
     # Saving the model to disk
-    pickle.dump(simplefnw,open('model.pkl','wb'))
-        
+    #pickle.dump(simplefnw,open('model.pkl','wb'))
+
+
     '''
     # loading the model
     model = pickle.load(open('model.pkl','rb'))
